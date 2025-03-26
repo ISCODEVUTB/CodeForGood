@@ -1,18 +1,21 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from Services.database import get_db
+from Services.models import Donor, Volunteer
 
-app = FastAPI()
+router = APIRouter()
 
-@app.get("/analytics/donors/count")
-def count_donors():
-    return {"total_donors": len(donors_db)}
+@router.get("/donors/count")
+def count_donors(db: Session = Depends(get_db)):
+    return {"total_donors": db.query(Donor).count()}
 
-@app.get("/analytics/volunteers/count")
-def count_volunteers():
-    return {"total_volunteers": len(volunteers_db)}
+@router.get("/volunteers/count")
+def count_volunteers(db: Session = Depends(get_db)):
+    return {"total_volunteers": db.query(Volunteer).count()}
 
-@app.get("/analytics/summary")
-def summary():
+@router.get("/summary")
+def summary(db: Session = Depends(get_db)):
     return {
-        "total_donors": len(donors_db),
-        "total_volunteers": len(volunteers_db)
+        "total_donors": db.query(Donor).count(),
+        "total_volunteers": db.query(Volunteer).count()
     }

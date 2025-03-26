@@ -1,24 +1,15 @@
 from fastapi import FastAPI
-import requests
+from Services.donor_service import router as donor_router
+from Services.volunteer_service import router as volunteer_router
+from Services.analytics_service import router as analytics_router
 
-app = FastAPI()
-
-BASE_URL_DONORS = "http://127.0.0.1:8001"
-BASE_URL_VOLUNTEERS = "http://127.0.0.1:8002"
-BASE_URL_ANALYTICS = "http://127.0.0.1:8003"
+app = FastAPI(title="CodeForGood API", version="1.0")
 
 @app.get("/")
 def read_root():
     return {"message": "API Gateway for CodeForGood"}
 
-@app.get("/donors")
-def get_donors():
-    return requests.get(f"{BASE_URL_DONORS}/donors").json()
-
-@app.get("/volunteers")
-def get_volunteers():
-    return requests.get(f"{BASE_URL_VOLUNTEERS}/volunteers").json()
-
-@app.get("/analytics/summary")
-def get_summary():
-    return requests.get(f"{BASE_URL_ANALYTICS}/analytics/summary").json()
+# Incluir los routers de los servicios
+app.include_router(donor_router, prefix="/donors", tags=["Donors"])
+app.include_router(volunteer_router, prefix="/volunteers", tags=["Volunteers"])
+app.include_router(analytics_router, prefix="/analytics", tags=["Analytics"])

@@ -1,39 +1,29 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from Services.database import get_db, Base
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
 
-app = FastAPI()
+# Crear un router en lugar de FastAPI (para mejor modularidad)
+router = APIRouter()
 
-# Modelo de Voluntario
-class Volunteer(BaseModel):
-    name: str
-    phone: str
+# Definir modelo en la base de datos
+class Volunteer(Base):
+    __tablename__ = "volunteers"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    phone = Column(String, unique=True, nullable=False)
 
-volunteers_db = {}
+# Endpoint para agregar un voluntario
+@router.post("/volunteers/")
+def create_volunteer(name: str, phone: str, db: Session = Depends(get_db)):
+    volunteer = Volunteer(name=name, phone=phone)
+    db.add(volunteer)
+    db.commit()
+    db.refresh(volunteer)
+    return volunteer
 
-@app.get("/volunteers")
-def get_volunteers():
-    return {"volunteers": list(volunteers_db.values())}
-
-@app.get("/volunteers/{volunteer_id}")
-def get_volunteer(volunteer_id: int):
-    return volunteers_db.get(volunteer_id, {"error": "Volunteer not found"})
-
-@app.post("/volunteers")
-def create_volunteer(volunteer: Volunteer):
-    volunteer_id = len(volunteers_db) + 1
-    volunteers_db[volunteer_id] = volunteer.dict()
-    return {"id": volunteer_id, "message": "Volunteer created"}
-
-@app.put("/volunteers/{volunteer_id}")
-def update_volunteer(volunteer_id: int, volunteer: Volunteer):
-    if volunteer_id in volunteers_db:
-        volunteers_db[volunteer_id] = volunteer.dict()
-        return {"message": "Volunteer updated"}
-    return {"error": "Volunteer not found"}
-
-@app.delete("/volunteers/{volunteer_id}")
-def delete_volunteer(volunteer_id: int):
-    if volunteer_id in volunteers_db:
-        del volunteers_db[volunteer_id]
-        return {"message": "Volunteer deleted"}
-    return {"error": "Volunteer not found"}
+# Endpoint para obtener todos los voluntarios
+@router.get("/volunteers/")
+def get_volunteers(db: Session = Depends(get_db)):
+    return db.query(Volunteer).all()
