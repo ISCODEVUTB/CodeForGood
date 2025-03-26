@@ -4,7 +4,7 @@ graph TD
     B --> C[Microservicio Donantes]
     B --> D[Microservicio Voluntarios]
     B --> E[Microservicio Autenticación]
-    C --> F[(PostgreSQL)]
+    C --> F[(SQLite)]
     D --> F
     E --> F
 ```
@@ -16,7 +16,7 @@ graph TD
   - `donors_ms`: Gestión de donantes.  
   - `volunteers_ms`: Gestión de voluntarios.  
   - `auth_ms`: Autenticación JWT.  
-- **Base de Datos**: PostgreSQL (almacena datos de donantes, voluntarios y usuarios).  
+- **Base de Datos**: SQLite (almacena datos de donantes, voluntarios y usuarios).  
 
 ## 2. Flujo de Datos
 1. El frontend se comunica con el API Gateway.  
@@ -28,5 +28,5 @@ graph TD
 |------------------|----------------------|
 | Frontend         | Flutter (Dart)       |
 | Backend          | Python (FastAPI)     |
-| Base de Datos    | PostgreSQL           |
+| Base de Datos    | SQLite               |
 | Autenticación    | JWT                  |
