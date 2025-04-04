@@ -1,17 +1,14 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from motor.motor_asyncio import AsyncIOMotorClient
 
-DATABASE_URL = "sqlite:///./database.db"
+# Usa la misma URL de `connect_db.py`
+MONGO_URI = "mongodb+srv://guemibachata:fYv2Si0J1HRdhJeK@nonprofitorganization.pcjn527.mongodb.net/?retryWrites=true&w=majority&appName=NonProfitOrganization"
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Conectar al cliente MongoDB Atlas
+client = AsyncIOMotorClient(MONGO_URI)
 
-Base = declarative_base()
+# Definir la base de datos
+database = client["CodeForGoodDB"]
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# Definir las colecciones
+donors_collection = database["donors"]
+volunteers_collection = database["volunteers"]

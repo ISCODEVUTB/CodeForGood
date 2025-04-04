@@ -1,29 +1,70 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from Services.database import get_db, Base
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+from bson import ObjectId
+from Services.database import volunteers_collection
 
-# Crear un router en lugar de FastAPI (para mejor modularidad)
 router = APIRouter()
 
-# Definir modelo en la base de datos
-class Volunteer(Base):
-    __tablename__ = "volunteers"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    phone = Column(String, unique=True, nullable=False)
+# Esquema de entrada con Pydantic
+class VolunteerCreate(BaseModel):
+    name: str
+    phone: str
 
-# Endpoint para agregar un voluntario
-@router.post("/volunteers/")
-def create_volunteer(name: str, phone: str, db: Session = Depends(get_db)):
-    volunteer = Volunteer(name=name, phone=phone)
-    db.add(volunteer)
-    db.commit()
-    db.refresh(volunteer)
-    return volunteer
+class VolunteerUpdate(BaseModel):
+    name: str
+    phone: str
 
-# Endpoint para obtener todos los voluntarios
-@router.get("/volunteers/")
-def get_volunteers(db: Session = Depends(get_db)):
-    return db.query(Volunteer).all()
+# Función auxiliar para convertir documentos BSON a JSON
+def volunteer_serializer(volunteer):
+    return {
+        "id": str(volunteer["_id"]),
+        "name": volunteer["name"],
+        "phone": volunteer["phone"]
+    }
+
+# Crear voluntario
+@router.post("/")
+async def create_volunteer(volunteer: VolunteerCreate):
+    new_volunteer = volunteer.dict()
+    result = await volunteers_collection.insert_one(new_volunteer)
+    
+    if result.inserted_id:
+        return volunteer_serializer(await volunteers_collection.find_one({"_id": result.inserted_id}))
+    
+    raise HTTPException(status_code=500, detail="Error al insertar voluntario.")
+
+# Obtener todos los voluntarios
+@router.get("/")
+async def get_volunteers():
+    volunteers = await volunteers_collection.find().to_list(100)
+    return [volunteer_serializer(volunteer) for volunteer in volunteers]
+
+# Actualizar un voluntario
+@router.put("/{volunteer_id}")
+async def update_volunteer(volunteer_id: str, volunteer: VolunteerUpdate):
+    if not ObjectId.is_valid(volunteer_id):
+        raise HTTPException(status_code=400, detail="ID inválido")
+
+    updated_volunteer = await volunteers_collection.find_one_and_update(
+        {"_id": ObjectId(volunteer_id)},
+        {"$set": volunteer.dict()},
+        return_document=True
+    )
+
+    if updated_volunteer:
+        return volunteer_serializer(updated_volunteer)
+
+    raise HTTPException(status_code=404, detail="Voluntario no encontrado")
+
+# Eliminar un voluntario
+@router.delete("/{volunteer_id}")
+async def delete_volunteer(volunteer_id: str):
+    if not ObjectId.is_valid(volunteer_id):
+        raise HTTPException(status_code=400, detail="ID inválido")
+
+    result = await volunteers_collection.delete_one({"_id": ObjectId(volunteer_id)})
+
+    if result.deleted_count == 1:
+        return {"message": "Voluntario eliminado exitosamente"}
+
+    raise HTTPException(status_code=404, detail="Voluntario no encontrado")

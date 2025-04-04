@@ -1,10 +1,12 @@
-from Services.database import engine, Base
-from Services import models  # Importa los modelos para registrarlos
+from Services.database import db
 
 def init_db():
-    print("Creando las tablas en la base de datos...")
-    Base.metadata.create_all(bind=engine)
-    print("¡Tablas creadas exitosamente!")
+    try:
+        # Verificar conexión con MongoDB
+        db.command("ping")
+        print("Conexión a MongoDB exitosa")
+    except Exception as e:
+        print("Error al conectar a MongoDB:", e)
 
 if __name__ == "__main__":
     init_db()

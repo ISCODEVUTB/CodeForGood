@@ -1,21 +1,27 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from Services.database import get_db
-from Services.models import Donor, Volunteer
+from fastapi import APIRouter
+from Services.database import donors_collection, volunteers_collection
 
 router = APIRouter()
 
+# Endpoint para contar donantes
 @router.get("/donors/count")
-def count_donors(db: Session = Depends(get_db)):
-    return {"total_donors": db.query(Donor).count()}
+async def count_donors():
+    total_donors = await donors_collection.count_documents({})
+    return {"total_donors": total_donors}
 
+# Endpoint para contar voluntarios
 @router.get("/volunteers/count")
-def count_volunteers(db: Session = Depends(get_db)):
-    return {"total_volunteers": db.query(Volunteer).count()}
+async def count_volunteers():
+    total_volunteers = await volunteers_collection.count_documents({})
+    return {"total_volunteers": total_volunteers}
 
+# Endpoint resumen general
 @router.get("/summary")
-def summary(db: Session = Depends(get_db)):
+async def summary():
+    total_donors = await donors_collection.count_documents({})
+    total_volunteers = await volunteers_collection.count_documents({})
+    
     return {
-        "total_donors": db.query(Donor).count(),
-        "total_volunteers": db.query(Volunteer).count()
+        "total_donors": total_donors,
+        "total_volunteers": total_volunteers
     }

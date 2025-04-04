@@ -1,17 +1,36 @@
-from sqlalchemy import Column, Integer, String, Float
-from Services.database import Base
+from pydantic import BaseModel, Field, EmailStr
+from typing import Optional
+from bson import ObjectId
 
-class Donor(Base):
-    __tablename__ = "donors"
-    __table_args__ = {"extend_existing": True}  # AGREGAR ESTO
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    email = Column(String, unique=True, nullable=False)
-    amount = Column(Float, nullable=False)
+class PyObjectId(ObjectId):
+    """Permite manejar ObjectId en Pydantic."""
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
 
-class Volunteer(Base):
-    __tablename__ = "volunteers"
-    __table_args__ = {"extend_existing": True}  # AGREGAR ESTO
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    phone = Column(String, unique=True, nullable=False)
+    @classmethod
+    def validate(cls, v):
+        if not ObjectId.is_valid(v):
+            raise ValueError("Invalid ObjectId")
+        return ObjectId(v)
+
+class Donor(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    name: str
+    email: EmailStr
+    amount: float
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+class Volunteer(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    name: str
+    phone: str
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
