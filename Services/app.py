@@ -3,7 +3,19 @@ from Services.donor_service import router as donor_router
 from Services.volunteer_service import router as volunteer_router
 from Services.analytics_service import router as analytics_router
 
-app = FastAPI(title="CodeForGood API", version="1.0")
+app = FastAPI(
+    title="CodeForGood API",
+    version="3.0.0",
+    description="""
+API para una organización sin fines de lucro.  
+Permite gestionar donantes y voluntarios, y proporciona un resumen analítico.  
+Desarrollado como arquitectura de microservicios con FastAPI + MongoDB Atlas.
+    """,
+    contact={
+        "name": "Equipo CodeForGood",
+        "email": "villam@utb.edu.co"
+    }   
+)
 
 @app.get("/")
 def read_root():
