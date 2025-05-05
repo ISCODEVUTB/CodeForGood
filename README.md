@@ -66,6 +66,7 @@
 - **Secure connections to protect information**
 
 ## Architecture
+```
 CodeForGood
 ├── .github/workflows/
 │ ├── ci.yml
@@ -97,7 +98,7 @@ CodeForGood
 ├── pytest.ini
 ├── requirements.txt
 ├── README.md
-
+```
 ## API
 
 ### Donor Management
