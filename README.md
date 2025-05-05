@@ -1,71 +1,71 @@
-# CodeForGood - Sistema de Gestión de Donantes y Voluntarios
+# CodeForGood - Management Platform for Nonprofit Organizations
 
-## Tabla de Contenido
+## Table of Contents
 
-1. [Descripción](#descripción)
-2. [Características principales](#características-principales)
-3. [Tipos de Usuarios](#tipos-de-usuarios)
-4. [Tecnologías Utilizadas](#tecnologías-utilizadas)
-5. [Instalación y Configuración](#instalación-y-configuración)
-6. [Seguridad](#seguridad)
-7. [Arquitectura](#arquitectura)
+1. [Description](#description)
+2. [Main Features](#main-features)
+3. [User Types](#user-types)
+4. [Technologies Used](#technologies-used)
+5. [Installation and Setup](#installation-and-setup)
+6. [Security](#security)
+7. [Architecture](#architecture)
 8. [API](#api)
-9. [Equipo](#equipo)
-10. [Licencia](#licencia)
+9. [Team](#team)
+10. [License](#license)
 
-## Descripción
+## Description
 
-**CodeForGood** es una aplicación diseñada para gestionar la participación de donantes y voluntarios en actividades sociales y humanitarias. Este sistema permite registrar donaciones, administrar la información de los donantes y voluntarios, y facilitar la conexión entre organizaciones y personas que desean contribuir a causas sociales.
+**CodeForGood** is an application designed to manage the participation of donors and volunteers in social and humanitarian activities. This system allows you to register donations, manage donor and volunteer information, and facilitate the connection between organizations and people who want to contribute to social causes.
 
-## Características principales
+## Main Features
 
-- **Gestión de donantes**: Registro, actualización y eliminación de donantes.
-- **Gestión de voluntarios**: Administración de la información de los voluntarios y asignación de actividades.
-- **Interfaz de usuario sencilla**: Acceso fácil para los administradores y usuarios para gestionar las actividades y donaciones.
-- **Integración con bases de datos**: MongoDB para almacenar la información de donantes y voluntarios.
+- **Donor Management**: Register, update, and delete donor information.
+- **Volunteer Management**: Manage volunteer information and assign activities.
+- **Simple User Interface**: Easy access for administrators and users to manage activities and donations.
+- **Database Integration**: Uses MongoDB to store donor and volunteer data.
 
-## Tipos de Usuarios
+## User Types
 
-- **Donante**: Puede hacer donaciones y ver el estado de sus contribuciones.
-- **Voluntario**: Se registra para actividades y tiene acceso a su perfil.
-- **Administrador**: Supervisa y gestiona todos los registros de donantes, voluntarios y actividades.
+- **Donor**: Can make donations and view the status of their contributions.
+- **Volunteer**: Can sign up for activities and access their profile.
+- **Administrator**: Oversees and manages all donor, volunteer, and activity records.
 
-## Tecnologías Utilizadas
+## Technologies Used
 
-- **Lenguajes y Frameworks**: Python 3.x, FastAPI
-- **Base de Datos**: MongoDB
-- **Pruebas**: pytest, httpx para pruebas unitarias
-- **CI/CD**: GitHub Actions para integración continua y despliegue automático
+- **Languages and Frameworks**: Python 3.x, FastAPI
+- **Database**: MongoDB
+- **Testing**: pytest, httpx for unit testing
+- **CI/CD**: GitHub Actions for continuous integration and automated deployment
 
-## Instalación y Configuración
+## Installation and Setup
 
-1. **Clona este repositorio**:
+1. **Clone this repository**:
 - git clone https://github.com/ISCODEVUTB/CodeForGood.git
 
-2. **Crear y activar el entorno virtual**:
+2. **Create and activate the virtual environment**:
 
-- En Windows:
+- On Windows:
   ```
   python -m venv venv
   .\venv\Scripts\activate
   ```
 
-- En Linux/macOS:
+- On Linux/macOS:
   ```
   python3 -m venv venv
   source venv/bin/activate
   ```
 
-3. **Instalar las dependencias necesarias**:
+3. **Install required dependencies**:
 - pip install -r requirements.txt
 
-## Seguridad
+## Security
 
-- **Cifrado de datos sensibles.**
-- **Control de acceso basado en roles.**
-- **Conexiones seguras para protección de información.**
+- **Encryption of sensitive data**
+- **Role-based access control**
+- **Secure connections to protect information**
 
-## Arquitectura
+## Architecture
 CodeForGood
 ├── .github/workflows/
 │ ├── ci.yml
@@ -75,8 +75,8 @@ CodeForGood
 │ ├── sprint #3/
 │ ├── Api Documentation.md
 ├── services/
-│ ├── __pycache__/
-│ ├── __init.py__
+│ ├── pycache/
+│ ├── init.py
 │ ├── analytics_service.py
 │ ├── app.py/
 │ ├── connect_db.py
@@ -85,11 +85,11 @@ CodeForGood
 │ ├── init_db.py
 │ ├── models.py
 │ ├── volunteer_service.py
-├── __pycache__/
+├── pycache/
 ├── tests/
-│ ├── __pycache__/
+│ ├── pycache/
 │ ├── test_donor_service.py
-├── __init.py__
+├── init.py
 ├── .gitignore
 ├── database.db
 ├── LICENSE
@@ -99,32 +99,33 @@ CodeForGood
 ├── README.md
 
 ## API
-### Gestión de Donantes
 
-- **GET /donors/**: Obtiene todos los donantes registrados.
-- **POST /donors/**: Registra un nuevo donante.
-- **PUT /donors/{id}**: Actualiza los datos de un donante.
-- **DELETE /donors/{id}**: Elimina un donante.
+### Donor Management
 
-### Gestión de Voluntarios
+- **GET /donors/**: Retrieve all registered donors.
+- **POST /donors/**: Register a new donor.
+- **PUT /donors/{id}**: Update a donor's information.
+- **DELETE /donors/{id}**: Delete a donor.
 
-- **GET /volunteers/**: Obtiene todos los voluntarios registrados.
-- **POST /volunteers/**: Registra un nuevo voluntario.
-- **PUT /volunteers/{id}**: Actualiza los datos de un voluntario.
-- **DELETE /volunteers/{id}**: Elimina un voluntario.
+### Volunteer Management
 
-### Autenticación
+- **GET /volunteers/**: Retrieve all registered volunteers.
+- **POST /volunteers/**: Register a new volunteer.
+- **PUT /volunteers/{id}**: Update a volunteer's information.
+- **DELETE /volunteers/{id}**: Delete a volunteer.
 
-- **GET /analytics/donors/count**: Total de donantes
-- **GET /analytics/volunteers/count**: Total de voluntarios
-- **GET /analytics/summary**: Resumen combinado
+### Analytics
 
-## Equipo
+- **GET /analytics/donors/count**: Total number of donors
+- **GET /analytics/volunteers/count**: Total number of volunteers
+- **GET /analytics/summary**: Combined summary
 
-- **Juan Silgado** 
+## Team
+
+- **Juan Silgado**
 - **Miguel Villa**
-- **Dylan Ecker** 
+- **Dylan Ecker**
 
-## Licencia
+## License
 
-Este proyecto se distribuye bajo los términos de la Licencia MIT.
+This project is licensed under the terms of the MIT License.
