@@ -1,35 +1,28 @@
-name: Continuous Integration
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout del repositorio
-      uses: actions/checkout@v3
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
 
-    - name: Cambiar al directorio del proyecto
-      working-directory: ./CodeForGood
-      run: echo "Entrando a CodeForGood/"
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Configurar Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.11"
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Instalar dependencias
-      working-directory: ./CodeForGood
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Ejecutar pruebas
-      working-directory: ./CodeForGood
-      run: |
-        pytest
+      - name: Ejecutar pruebas
+        run: pytest
