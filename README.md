@@ -1,83 +1,130 @@
-#Plataforma de Gestión para Organización Sin Fines de Lucro
-  
-Autores: Juan Silgado, Miguel Villa, Dylan Ecker  
-Fecha: 23 de abril de 2025  
-Universidad Tecnológica de Bolívar
+# CodeForGood - Sistema de Gestión de Donantes y Voluntarios
 
-##Descripción
+## Tabla de Contenido
 
-Este proyecto tiene como objetivo desarrollar una plataforma unificada para la gestión de datos de una organización sin fines de lucro, integrando donantes, voluntarios y programas. Se trata de una solución moderna basada en microservicios y tecnologías en la nube, orientada a mejorar la administración, coordinación y toma de decisiones mediante analítica avanzada.
+1. [Descripción](#descripción)
+2. [Características principales](#características-principales)
+3. [Tipos de Usuarios](#tipos-de-usuarios)
+4. [Tecnologías Utilizadas](#tecnologías-utilizadas)
+5. [Instalación y Configuración](#instalación-y-configuración)
+6. [Seguridad](#seguridad)
+7. [Arquitectura](#arquitectura)
+8. [API](#api)
+9. [Equipo](#equipo)
+10. [Licencia](#licencia)
 
-##Características principales
+## Descripción
 
-- Arquitectura de microservicios.
-- API Gateway para centralizar el acceso a servicios.
-- Almacenamiento en Data Warehouse en la nube.
-- Sistema de analítica avanzada con dashboard interactivo.
-- Interfaces para administración, visualización y análisis de datos.
+**CodeForGood** es una aplicación diseñada para gestionar la participación de donantes y voluntarios en actividades sociales y humanitarias. Este sistema permite registrar donaciones, administrar la información de los donantes y voluntarios, y facilitar la conexión entre organizaciones y personas que desean contribuir a causas sociales.
 
-##Clases de usuarios
+## Características principales
 
-- **Administradores:** Gestión de usuarios, roles, reportes.
-- **Coordinadores de voluntarios:** Asignación y seguimiento de actividades.
-- **Donantes:** Visualización de historial e impacto de donaciones.
+- **Gestión de donantes**: Registro, actualización y eliminación de donantes.
+- **Gestión de voluntarios**: Administración de la información de los voluntarios y asignación de actividades.
+- **Interfaz de usuario sencilla**: Acceso fácil para los administradores y usuarios para gestionar las actividades y donaciones.
+- **Integración con bases de datos**: MongoDB para almacenar la información de donantes y voluntarios.
 
-##Requisitos de seguridad
+## Tipos de Usuarios
 
-- Cifrado de datos en tránsito (TLS 1.2/1.3) y en reposo (AES-256).
-- Auditorías de seguridad periódicas.
-- Cumplimiento con GDPR y normas como ISO/IEC 27001.
+- **Donante**: Puede hacer donaciones y ver el estado de sus contribuciones.
+- **Voluntario**: Se registra para actividades y tiene acceso a su perfil.
+- **Administrador**: Supervisa y gestiona todos los registros de donantes, voluntarios y actividades.
 
-##Rendimiento y escalabilidad
+## Tecnologías Utilizadas
 
-- Baja latencia en APIs (< 200 ms).
-- Procesamiento de grandes volúmenes de datos (hasta 10,000 registros/minuto).
-- Alta disponibilidad con despliegue multi-AZ.
-- Escalabilidad horizontal y vertical con Docker + Kubernetes.
+- **Lenguajes y Frameworks**: Python 3.x, FastAPI
+- **Base de Datos**: MongoDB
+- **Pruebas**: pytest, httpx para pruebas unitarias
+- **CI/CD**: GitHub Actions para integración continua y despliegue automático
 
-##Requisitos funcionales destacados
+## Instalación y Configuración
 
-- Registro, consulta, edición y eliminación lógica de donantes y voluntarios.
-- Asociación de actividades y campañas.
-- Historial de auditoría para trazabilidad.
-- Filtros, exportación de datos y control de acceso basado en roles.
+1. **Clona este repositorio**:
+- git clone https://github.com/ISCODEVUTB/CodeForGood.git
 
-##Interfaces
+2. **Crear y activar el entorno virtual**:
 
-- Web app con panel de administración responsivo.
-- Dashboard con métricas clave (usuarios, donaciones, eventos).
-- Integración con plataformas de pago y CRM.
-- API Gateway para gestión centralizada y segura de servicios.
+- En Windows:
+  ```
+  python -m venv venv
+  .\venv\Scripts\activate
+  ```
 
-##Documentación
+- En Linux/macOS:
+  ```
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
 
-- Manual para usuarios administrativos y coordinadores.
-- Guía de integración para desarrolladores externos.
+3. **Instalar las dependencias necesarias**:
+- pip install -r requirements.txt
 
-##MVP (Producto Mínimo Viable)
+## Seguridad
 
-- Microservicios para módulos clave.
-- API Gateway para control de acceso.
-- Dashboard interactivo para métricas clave.
-- Infraestructura en la nube para datos y análisis.
+- **Cifrado de datos sensibles.**
+- **Control de acceso basado en roles.**
+- **Conexiones seguras para protección de información.**
 
-##Requisitos técnicos
+## Arquitectura
+CodeForGood
+├── .github/workflows/
+│ ├── ci.yml
+├── docs/
+│ ├── sprint #1/
+│ ├── sprint #2/
+│ ├── sprint #3/
+│ ├── Api Documentation.md
+├── services/
+│ ├── __pycache__/
+│ ├── __init.py__
+│ ├── analytics_service.py
+│ ├── app.py/
+│ ├── connect_db.py
+│ ├── database.py
+│ ├── donor_service.py
+│ ├── init_db.py
+│ ├── models.py
+│ ├── volunteer_service.py
+├── __pycache__/
+├── tests/
+│ ├── __pycache__/
+│ ├── test_donor_service.py
+├── __init.py__
+├── .gitignore
+├── database.db
+├── LICENSE
+├── main.py
+├── pytest.ini
+├── requirements.txt
+├── README.md
 
-- Acceso a internet.
-- Navegadores modernos (compatibilidad mobile-first).
-- Servicios en la nube: AWS, Azure o Google Cloud.
+## API
+### Gestión de Donantes
 
-##Historial de versiones
+- **GET /donors/**: Obtiene todos los donantes registrados.
+- **POST /donors/**: Registra un nuevo donante.
+- **PUT /donors/{id}**: Actualiza los datos de un donante.
+- **DELETE /donors/{id}**: Elimina un donante.
 
-| Versión | Fecha       | Cambios principales                                           |
-|---------|-------------|---------------------------------------------------------------|
-| 0.1     | 16/03/25    | Documentación inicial del proyecto                            |
-| 0.2     | 16/03/25    | Documentación inicial del MVP                                 |
-| 2.0     | 22/03/25    | Actualización                                                 |
-| 3.0     | 23/04/25    | Arquitectura completa, interfaz, MVP y actualización de requisitos |
+### Gestión de Voluntarios
 
-##Licencia
+- **GET /volunteers/**: Obtiene todos los voluntarios registrados.
+- **POST /volunteers/**: Registra un nuevo voluntario.
+- **PUT /volunteers/{id}**: Actualiza los datos de un voluntario.
+- **DELETE /volunteers/{id}**: Elimina un voluntario.
 
-Este proyecto es parte de un trabajo académico de la Universidad Tecnológica de Bolívar. Su uso está limitado a fines educativos.
+### Autenticación
 
-# CodeForGood
+- **GET /analytics/donors/count**: Total de donantes
+- **GET /analytics/volunteers/count**: Total de voluntarios
+- **GET /analytics/summary**: Resumen combinado
+
+## Equipo
+
+- **Juan Silgado** 
+- **Miguel Villa**
+- **Dylan Ecker** 
+
+## Licencia
+
+Este proyecto se distribuye bajo los términos de la Licencia MIT.
