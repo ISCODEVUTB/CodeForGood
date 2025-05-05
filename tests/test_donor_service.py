@@ -28,7 +28,7 @@ async def test_create_donor():
 async def test_get_donors():
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
-        response = await client.get("/donors/")  # Ruta con '/' al final
+        response = await client.get("/donors/")  
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
@@ -43,7 +43,7 @@ async def test_update_donor():
     }
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
-        response = await client.put(f"/donors/{created_id}/", json=updated_data)  # Ruta con '/' al final
+        response = await client.put(f"/donors/{created_id}/", json=updated_data)  
         assert response.status_code == 200
         assert response.json()["name"] == "Juan Actualizado"
 
@@ -53,6 +53,6 @@ async def test_delete_donor():
     global created_id
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
-        response = await client.delete(f"/donors/{created_id}/")  # Ruta con '/' al final
+        response = await client.delete(f"/donors/{created_id}/")  
         assert response.status_code == 200
         assert response.json()["message"] == "Donante eliminado exitosamente"
