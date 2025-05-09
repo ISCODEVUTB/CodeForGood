@@ -1,2 +1,0 @@
-# Weekly Report #1
-https://tecnoutb-my.sharepoint.com/personal/villam_utb_edu_co/_layouts/15/stream.aspx?id=%2Fpersonal%2Fvillam%5Futb%5Fedu%5Fco%2FDocuments%2FMeeting%2D20250324%5F171815%2DMeeting%20Recording%20%2D%20Trim%2Emp4&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ef21400b7%2D16c9%2D41d1%2D815f%2De9179626a20e
