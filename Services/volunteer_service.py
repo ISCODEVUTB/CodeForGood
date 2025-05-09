@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from bson import ObjectId
-from Services.database import volunteers_collection
+from DB.database import volunteers_collection
 
 router = APIRouter()
 
