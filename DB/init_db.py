@@ -1,4 +1,4 @@
-from Services.database import database  # Importar la base de datos desde database.py
+from DB.database import database  # Importar la base de datos desde database.py
 
 def init_db():
     try:

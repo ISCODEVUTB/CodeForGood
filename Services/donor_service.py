@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, EmailStr
 from bson import ObjectId
-from Services.database import donors_collection
+from DB.database import donors_collection
 
 router = APIRouter()
 
@@ -28,7 +28,7 @@ def donor_serializer(donor):
 # Crear donante
 @router.post("/")
 async def create_donor(donor: DonorCreate):
-    new_donor = donor.dict()
+    new_donor = donor.model_dump()  
     result = await donors_collection.insert_one(new_donor)
     
     if result.inserted_id:
@@ -50,7 +50,7 @@ async def update_donor(donor_id: str, donor: DonorUpdate):
 
     updated_donor = await donors_collection.find_one_and_update(
         {"_id": ObjectId(donor_id)},
-        {"$set": donor.dict()},
+        {"$set": donor.model_dump()},  
         return_document=True
     )
 
