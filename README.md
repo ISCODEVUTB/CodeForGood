@@ -68,36 +68,47 @@
 ## Architecture
 ```
 CodeForGood
+├── __pycache__
 ├── .github/workflows/
-│ ├── ci.yml
+│ ├── sonar_backend.yml
+├── .pytest_cache/
+├── DB/
+│ ├── __pycache__/
+│ ├── connect_db.py
+│ ├── database.py
+│ ├── init_db.py
 ├── docs/
 │ ├── sprint #1/
 │ ├── sprint #2/
 │ ├── sprint #3/
+│ ├── sprint #4/
+│ ├── sprint #5/
 │ ├── Api Documentation.md
+├── docs/
+│ ├── __init__.py
+│ ├── models
 ├── services/
 │ ├── pycache/
 │ ├── init.py
 │ ├── analytics_service.py
-│ ├── app.py/
-│ ├── connect_db.py
-│ ├── database.py
 │ ├── donor_service.py
-│ ├── init_db.py
-│ ├── models.py
 │ ├── volunteer_service.py
-├── pycache/
 ├── tests/
 │ ├── pycache/
+│ ├── conftest.py
+│ ├── test_analytics_service.py
 │ ├── test_donor_service.py
+│ ├── test_volunteer_service.py
+├── venv/
 ├── init.py
+├── .coverage
 ├── .gitignore
-├── database.db
+├── app.py
 ├── LICENSE
-├── main.py
 ├── pytest.ini
-├── requirements.txt
 ├── README.md
+├── requirements.txt
+
 ```
 ## API
 
