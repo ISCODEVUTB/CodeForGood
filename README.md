@@ -26,8 +26,8 @@
 
 ## User Types
 
-- **Donor**: Can make donations and view the status of their contributions.
-- **Volunteer**: Can sign up for activities and access their profile.
+- **Donor**: Can make donations.
+- **Volunteer**: Can sign up for activities.
 - **Administrator**: Oversees and manages all donor, volunteer, and activity records.
 
 ## Technologies Used
