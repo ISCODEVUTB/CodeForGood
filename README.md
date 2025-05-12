@@ -83,11 +83,10 @@ CodeForGood
 │ ├── sprint #3/
 │ ├── sprint #4/
 │ ├── sprint #5/
-│ ├── Api Documentation.md
-├── docs/
+├── models/
 │ ├── __init__.py
-│ ├── models
-├── services/
+│ ├── models.py
+├── Services/
 │ ├── pycache/
 │ ├── init.py
 │ ├── analytics_service.py
