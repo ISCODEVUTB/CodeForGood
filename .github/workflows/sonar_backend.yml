@@ -1,23 +1,61 @@
-- name: Run tests with coverage
-  run: |
-    pytest --cov=./ \
-           --cov-config=.coveragerc \
-           --cov-report=xml \
-           --cov-report=term-missing:skip-covered \
-           --junitxml=test-results.xml
-    python -m coverage report --show-missing
+name: SonarQube Analysis
 
-- name: SonarQube Scan
-  uses: SonarSource/sonarqube-scan-action@v4
-  env:
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  with:
-    args: >
-      -Dsonar.projectKey=ISCODEVUTB_CodeForGood
-      -Dsonar.organization=deviscoutb
-      -Dsonar.host.url=https://sonarcloud.io
-      -Dsonar.python.coverage.reportPaths=coverage.xml
-      -Dsonar.testExecutionReportPaths=test-results.xml
-      -Dsonar.coverage.exclusions=**/__init__.py,**/tests/**,**/migrations/**
-      -Dsonar.qualitygate.wait=true
-      -Dsonar.qualitygate.timeout=600
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov pytest-mock
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pymongo fastapi httpx motor
+
+      - name: Run tests with coverage
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          pytest --cov=./ --cov-config=.coveragerc --cov-report=xml --cov-report=html --cov-report=term-missing
+          python -m coverage report --show-missing
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            coverage.xml
+            htmlcov/
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env: 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=ISCODEVUTB_CodeForGood
+            -Dsonar.organization=deviscoutb
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.coverage.exclusions=**/__init__.py,**/tests/**,**/migrations/**,**/config.py
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300
