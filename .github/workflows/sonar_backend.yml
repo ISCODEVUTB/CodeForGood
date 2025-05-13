@@ -21,12 +21,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'  # Cambiado a 3.12 para mayor estabilidad
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install "coverage<8.0" pytest-cov pytest-mock  # Versión específica de coverage
+          pip install pytest pytest-cov pytest-mock
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pymongo fastapi httpx motor
 
@@ -34,7 +34,7 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          pytest --cov=./ --cov-config=.coveragerc --cov-report=xml --cov-report=html
+          pytest --cov=./ --cov-config=.coveragerc --cov-report=xml --cov-report=html --cov-report=term-missing
           python -m coverage report --show-missing
 
       - name: Upload coverage reports
@@ -55,12 +55,7 @@ jobs:
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.python.coveragePlugin=cobertura
-            -Dsonar.coverage.exclusions=**/__init__.py,**/tests/**,**/migrations/**
+            -Dsonar.coverage.exclusions=**/__init__.py,**/tests/**,**/migrations/**,**/config.py
             -Dsonar.c.file.suffixes=-
-            -Dsonar.cpp.file.suffixes=-
-            -Dsonar.objc.file.suffixes=-
-            -Dsonar.shell.file.suffixes=-
-            -Dsonar.ps.file.suffixes=-
             -Dsonar.qualitygate.wait=true
             -Dsonar.qualitygate.timeout=300
