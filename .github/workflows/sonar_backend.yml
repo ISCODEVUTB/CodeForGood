@@ -52,3 +52,6 @@ jobs:
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.cpp.file.suffixes=-
+            -Dsonar.objc.file.suffixes=-
