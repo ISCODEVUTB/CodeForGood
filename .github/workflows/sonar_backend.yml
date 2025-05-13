@@ -16,29 +16,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Necesario para el análisis de SonarQube
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'
+          python-version: '3.12'  # Cambiado a 3.12 para mayor estabilidad
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest pytest-cov pytest-mock  # Añadido pytest-mock para mejores tests
+          pip install "coverage<8.0" pytest-cov pytest-mock  # Versión específica de coverage
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pymongo fastapi httpx motor
-          pip install coverage==7.4.0  # Versión específica para mejor compatibilidad
 
-      - name: Run tests with detailed coverage
+      - name: Run tests with coverage
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          # Ejecuta tests con cobertura detallada
           pytest --cov=./ --cov-config=.coveragerc --cov-report=xml --cov-report=html
-          
-          # Genera reporte de líneas no cubiertas
           python -m coverage report --show-missing
 
       - name: Upload coverage reports
