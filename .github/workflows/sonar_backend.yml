@@ -30,27 +30,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-cov pymongo fastapi httpx motor
 
-      # Verifica si hay archivos C y configura en consecuencia
-      - name: Detect C files and setup
-        id: detect-c
-        run: |
-          if [ -n "$(find . -name '*.c' -o -name '*.h')" ]; then
-            echo "C_FILES_EXIST=true" >> $GITHUB_OUTPUT
-            sudo apt-get update
-            sudo apt-get install -y build-essential bear
-          else
-            echo "C_FILES_EXIST=false" >> $GITHUB_OUTPUT
-          fi
-
-      # Solo generar compile_commands.json si hay archivos C
-      - name: Generate compilation database
-        if: steps.detect-c.outputs.C_FILES_EXIST == 'true'
-        run: |
-          # Lista los archivos C encontrados
-          find . -name "*.c" -o -name "*.h"
-          # Intenta compilar con gcc como fallback si make falla
-          bear -- gcc -c $(find . -name "*.c") || echo "Warning: Could not generate complete compile_commands.json"
-
       - name: Run tests with coverage
         env:
           PYTHONPATH: ${{ github.workspace }}
@@ -73,6 +52,8 @@ jobs:
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.cpp.file.suffixes=-
+            -Dsonar.objc.file.suffixes=-
             -Dsonar.shell.file.suffixes=-
             -Dsonar.ps.file.suffixes=-
-            ${{ steps.detect-c.outputs.C_FILES_EXIST == 'true' && '-Dsonar.cfamily.compile-commands=compile_commands.json -Dsonar.c.file.suffixes=.c,.h' || '-Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=-' }}
