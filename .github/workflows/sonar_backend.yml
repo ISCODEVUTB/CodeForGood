@@ -30,16 +30,18 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-cov pymongo fastapi httpx motor
 
-      # Instala herramientas para C/C++ (bear o build-wrapper)
-      - name: Install build-essential and bear
+      # Solo instalar herramientas C si realmente hay código C que analizar
+      - name: Install C tools (conditional)
+        if: contains(github.event.pull_request.labels.*.name, 'needs-c-analysis') || contains(github.event.head_commit.message, '[analyze-c]')
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential bear
 
-      # Genera compile_commands.json (ejemplo con make)
-      - name: Generate compilation database
+      # Solo generar compile_commands.json si hay código C
+      - name: Generate compilation database (conditional)
+        if: contains(github.event.pull_request.labels.*.name, 'needs-c-analysis') || contains(github.event.head_commit.message, '[analyze-c]')
         run: |
-          bear -- make clean all  # Genera compile_commands.json
+          find . -name "*.c" -o -name "*.cpp" | grep -q . && bear -- make || echo "No C/C++ files found, skipping compilation database"
 
       - name: Run tests with coverage
         env:
@@ -63,4 +65,9 @@ jobs:
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.cfamily.compile-commands=compile_commands.json  # Ruta a la base de compilación
+            -Dsonar.c.file.suffixes=.c,.h  # Solo analizar estos archivos si existen
+            -Dsonar.cpp.file.suffixes=-     # Ignorar C++
+            -Dsonar.objc.file.suffixes=-    # Ignorar Objective-C
+            -Dsonar.shell.file.suffixes=-   # Ignorar Shell
+            -Dsonar.ps.file.suffixes=-      # Ignorar PowerShell
+            ${{ contains(github.event.pull_request.labels.*.name, 'needs-c-analysis') || contains(github.event.head_commit.message, '[analyze-c]') && '-Dsonar.cfamily.compile-commands=compile_commands.json' || '' }}
