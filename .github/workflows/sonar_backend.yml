@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Obtiene el historial completo para SonarQube
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -30,6 +30,17 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-cov pymongo fastapi httpx motor
 
+      # Instala herramientas para C/C++ (bear o build-wrapper)
+      - name: Install build-essential and bear
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bear
+
+      # Genera compile_commands.json (ejemplo con make)
+      - name: Generate compilation database
+        run: |
+          bear -- make clean all  # Genera compile_commands.json
+
       - name: Run tests with coverage
         env:
           PYTHONPATH: ${{ github.workspace }}
@@ -40,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage.xml  # Guarda el reporte de cobertura como artefacto
+          path: coverage.xml
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
@@ -52,6 +63,4 @@ jobs:
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.c.file.suffixes=-
-            -Dsonar.cpp.file.suffixes=-
-            -Dsonar.objc.file.suffixes=-
+            -Dsonar.cfamily.compile-commands=compile_commands.json  # Ruta a la base de compilación
