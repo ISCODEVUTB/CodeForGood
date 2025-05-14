@@ -13,7 +13,8 @@ test_volunteer = {
 @pytest.fixture()
 async def client():
     transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+    # NOSONAR: URL solo usada para pruebas internas sin red real ni exposición externa
+    async with AsyncClient(transport=transport, base_url="http://test") as ac: # NOSONAR
         yield ac
 
 @pytest.fixture(scope="function")

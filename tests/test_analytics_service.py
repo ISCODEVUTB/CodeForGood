@@ -17,7 +17,8 @@ voluntario_prueba = {
 @pytest.fixture()
 async def client():
     transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+    # NOSONAR: URL solo usada para pruebas internas sin red real ni exposición externa
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:  # NOSONAR
         yield ac
 
 @pytest.mark.asyncio
@@ -48,7 +49,6 @@ async def test_summary(client):
 
 @pytest.mark.asyncio
 async def test_resumen_conteos(client):
-    
     resumen_antes = (await client.get("analytics/summary")).json()
     donantes_antes = resumen_antes["total_donors"]
     voluntarios_antes = resumen_antes["total_volunteers"]
