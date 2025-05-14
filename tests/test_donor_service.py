@@ -48,6 +48,7 @@ async def test_update_donor(client, created_donor_id):
     assert response.status_code == 200
     assert response.json()["name"] == updated_data["name"]
 
+@pytest.mark.asyncio
 async def test_delete_donor_completo(client):
     # 1. Crear el donante
     crear_respuesta = await client.post("/donors/", json=test_donor)
