@@ -13,7 +13,7 @@ def test_load_env_variable(mock_getenv):
 def test_successful_connection(mock_mongoclient, mock_print):
     # Simular una instancia de cliente MongoDB
     mock_client = MagicMock()
-    mock_MongoClient.return_value = mock_client
+    mock_mongoclient.return_value = mock_client
     mock_client.admin.command.return_value = {"ok": 1}
 
     # Ejecutar función
@@ -28,7 +28,7 @@ def test_successful_connection(mock_mongoclient, mock_print):
 def test_failed_connection(mock_mongoclient, mock_print):
     # Simulamos que la conexión falle
     mock_client_instance = MagicMock()
-    mock_MongoClient.return_value = mock_client_instance
+    mock_mongoclient.return_value = mock_client_instance
 
     # Simulamos una excepción
     mock_client_instance.admin.command.side_effect = Exception("Connection failed")
