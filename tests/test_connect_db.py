@@ -10,7 +10,7 @@ def test_load_env_variable(mock_getenv):
 # Test para verificar una conexión exitosa a MongoDB
 @patch("builtins.print")  
 @patch("DB.connect_db.MongoClient")  
-def test_successful_connection(mock_MongoClient, mock_print):
+def test_successful_connection(mock_mongoclient, mock_print):
     # Simular una instancia de cliente MongoDB
     mock_client = MagicMock()
     mock_MongoClient.return_value = mock_client
@@ -25,7 +25,7 @@ def test_successful_connection(mock_MongoClient, mock_print):
 # Test para verificar una conexión fallida a MongoDB
 @patch("builtins.print")  # 
 @patch("DB.connect_db.MongoClient")  
-def test_failed_connection(mock_MongoClient, mock_print):
+def test_failed_connection(mock_mongoclient, mock_print):
     # Simulamos que la conexión falle
     mock_client_instance = MagicMock()
     mock_MongoClient.return_value = mock_client_instance
