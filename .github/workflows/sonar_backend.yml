@@ -9,11 +9,8 @@ on:
 
 jobs:
   sonarqube:
-    name: SonarQube Analysis
+    name: SonarQube
     runs-on: ubuntu-latest
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      PYTHONPATH: ${{ github.workspace }}
 
     steps:
       - name: Checkout repository
@@ -24,22 +21,24 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'  # Changed from 3.13.2 to supported version
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install pytest pytest-cov pytest-mock
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest pytest-cov pytest-mock pymongo fastapi httpx motor
+          pip install pymongo fastapi httpx motor
 
       - name: Run tests with coverage
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           pytest --cov=./ --cov-config=.coveragerc --cov-report=xml --cov-report=html --cov-report=term-missing
           python -m coverage report --show-missing
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: coverage-reports
           path: |
@@ -48,17 +47,15 @@ jobs:
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
+        env: 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
             -Dsonar.projectKey=ISCODEVUTB_CodeForGood
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.python.version=3.12
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.coverage.exclusions=**/__init__.py,**/tests/**,**/migrations/**,**/config.py
             -Dsonar.c.file.suffixes=-
             -Dsonar.qualitygate.wait=true
-            -Dsonar.qualitygate.timeout=600  
-            -Dsonar.scm.provider=git
-            -Dsonar.sourceEncoding=UTF-8
-            -Dsonar.verbose=true  
+            -Dsonar.qualitygate.timeout=300
