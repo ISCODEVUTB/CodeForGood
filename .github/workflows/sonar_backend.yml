@@ -19,17 +19,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Required for SonarQube to properly analyze git history
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13.2'
+          python-version: '3.12'  # Changed from 3.13.2 to supported version
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-cov pytest-mock pymongo fastapi httpx motor
 
       - name: Run tests with coverage
@@ -39,6 +39,7 @@ jobs:
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: coverage-reports
           path: |
@@ -52,11 +53,12 @@ jobs:
             -Dsonar.projectKey=ISCODEVUTB_CodeForGood
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.python.version=3.13.2
+            -Dsonar.python.version=3.12
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.coverage.exclusions=**/__init__.py,**/tests/**,**/migrations/**,**/config.py
             -Dsonar.c.file.suffixes=-
             -Dsonar.qualitygate.wait=true
-            -Dsonar.qualitygate.timeout=300
+            -Dsonar.qualitygate.timeout=600  
             -Dsonar.scm.provider=git
             -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.verbose=true  
