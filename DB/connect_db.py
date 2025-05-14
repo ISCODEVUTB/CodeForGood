@@ -1,4 +1,3 @@
-
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import os
@@ -10,13 +9,16 @@ load_dotenv()
 # Obtener la URI de MongoDB desde la variable de entorno
 uri = os.getenv("MONGO_URI")
 
-# Crear el cliente y conectar al servidor
-client = MongoClient(uri, server_api=ServerApi('1'))
+# Función a testear
+def connect_to_mongo():
+    client = MongoClient(uri, server_api=ServerApi('1'))
+    try:
+        client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+    except Exception as e:
+        print(str(e))  
+    return client
 
-# Enviar un ping para confirmar la conexión
-try:
-    client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
-
+# Evita que se ejecute al importar
+if __name__ == "__main__":
+    connect_to_mongo()
