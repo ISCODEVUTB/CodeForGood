@@ -33,6 +33,7 @@ jobs:
       - name: Run tests with coverage
         env:
           PYTHONPATH: ${{ github.workspace }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
         run: |
           pytest --cov=./ --cov-config=.coveragerc --cov-report=xml --cov-report=html --cov-report=term-missing
           python -m coverage report --show-missing
