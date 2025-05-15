@@ -1,4 +1,5 @@
 # CodeForGood - Management Platform for Nonprofit Organizations
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)
 
 ## Table of Contents
 
