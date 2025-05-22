@@ -1,18 +1,29 @@
 # CodeForGood - Management Platform for Nonprofit Organizations
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)
 
+
 ## Table of Contents
 
-1. [Description](#description)
-2. [Main Features](#main-features)
-3. [User Types](#user-types)
-4. [Technologies Used](#technologies-used)
-5. [Installation and Setup](#installation-and-setup)
-6. [Security](#security)
-7. [Architecture](#architecture)
-8. [API](#api)
-9. [Team](#team)
-10. [License](#license)
+1. [Overview](#overview)
+2. [Description](#description)
+3. [Main Features](#main-features)
+4. [User Types](#user-types)
+5. [Technologies Used](#technologies-used)
+6. [Installation and Setup](#installation-and-setup)
+7. [Security](#security)
+8. [Architecture](#architecture)
+9. [API](#api)
+10. [Team](#team)
+11. [License](#license)
+
+## Overview
+
+ **[FastAPI](https://fastapi.tiangolo.com/)** for the Python backend API.  
+ 
+ **Tests with [pytest](https://docs.pytest.org/en/stable/)** for testing the application.  
+ 
+ **CI (Continuous Integration) and CD (Continuous Deployment)** based on GitHub Actions.
+
 
 ## Description
 
