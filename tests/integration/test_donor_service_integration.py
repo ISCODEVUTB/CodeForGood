@@ -14,8 +14,8 @@ test_donor = {
 @pytest.mark.asyncio
 async def test_create_get_update_delete_donor():
     transport = ASGITransport(app=app, raise_app_exceptions=True)
-
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+    # NOSONAR: URL solo usada para pruebas internas sin red real ni exposición externa
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:  # NOSONAR
 
         # Crear donante
         response = await ac.post("/donors/", json=test_donor)
