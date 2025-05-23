@@ -27,7 +27,7 @@ async def created_volunteer_id(client):
 async def cleanup():
     yield
     await volunteers_collection.delete_many({
-        "phone": {"$regex": ".*123456$"}
+        "phone": {"$in": ["666-123456", "555-654321"]}
     })
 
 @pytest.mark.asyncio
