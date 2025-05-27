@@ -95,6 +95,8 @@ CodeForGood
 │ ├── sprint #3/
 │ ├── sprint #4/
 │ ├── sprint #5/
+│ ├── sprint #6/
+├── htmlcov/
 ├── models/
 │ ├── __init__.py
 │ ├── models.py
@@ -106,13 +108,22 @@ CodeForGood
 │ ├── volunteer_service.py
 ├── tests/
 │ ├── pycache/
+│ ├── integration/
+│ │ ├── test_analytics_service_integration
+│ │ ├── test_donor_service_integration
+│ │ ├── test_volunteer_service_integration
+│ ├── unit/
+│ │ ├── test_analytics_service.py
+│ │ ├── test_connect_db.py
+│ │ ├── test_donor_service.py
+│ │ ├── test_init_db.py
+│ │ ├── test_volunteer_service.py
 │ ├── conftest.py
-│ ├── test_analytics_service.py
-│ ├── test_donor_service.py
-│ ├── test_volunteer_service.py
+│ ├── mock_data.py
 ├── venv/
 ├── init.py
 ├── .coverage
+├── .env
 ├── .gitignore
 ├── app.py
 ├── LICENSE
@@ -122,6 +133,10 @@ CodeForGood
 
 ```
 ## API
+### To run the API & run tests
+- **Path:** cd .\CodeForGood
+- **Server:** uvicorn --app-dir CodeForGood app:app --reload
+- **Tests:** python -m pytest tests -v
 
 ### Donor Management
 
