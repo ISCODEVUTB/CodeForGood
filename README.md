@@ -1,18 +1,29 @@
 # CodeForGood - Management Platform for Nonprofit Organizations
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ISCODEVUTB_CodeForGood&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ISCODEVUTB_CodeForGood)
+
 
 ## Table of Contents
 
-1. [Description](#description)
-2. [Main Features](#main-features)
-3. [User Types](#user-types)
-4. [Technologies Used](#technologies-used)
-5. [Installation and Setup](#installation-and-setup)
-6. [Security](#security)
-7. [Architecture](#architecture)
-8. [API](#api)
-9. [Team](#team)
-10. [License](#license)
+1. [Overview](#overview)
+2. [Description](#description)
+3. [Main Features](#main-features)
+4. [User Types](#user-types)
+5. [Technologies Used](#technologies-used)
+6. [Installation and Setup](#installation-and-setup)
+7. [Security](#security)
+8. [Architecture](#architecture)
+9. [API](#api)
+10. [Team](#team)
+11. [License](#license)
+
+## Overview
+
+ **[FastAPI](https://fastapi.tiangolo.com/)** for the Python backend API.  
+ 
+ **Tests with [pytest](https://docs.pytest.org/en/stable/)** for testing the application.  
+ 
+ **CI (Continuous Integration) and CD (Continuous Deployment)** based on GitHub Actions.
+
 
 ## Description
 
@@ -84,6 +95,8 @@ CodeForGood
 │ ├── sprint #3/
 │ ├── sprint #4/
 │ ├── sprint #5/
+│ ├── sprint #6/
+├── htmlcov/
 ├── models/
 │ ├── __init__.py
 │ ├── models.py
@@ -95,13 +108,22 @@ CodeForGood
 │ ├── volunteer_service.py
 ├── tests/
 │ ├── pycache/
+│ ├── integration/
+│ │ ├── test_analytics_service_integration
+│ │ ├── test_donor_service_integration
+│ │ ├── test_volunteer_service_integration
+│ ├── unit/
+│ │ ├── test_analytics_service.py
+│ │ ├── test_connect_db.py
+│ │ ├── test_donor_service.py
+│ │ ├── test_init_db.py
+│ │ ├── test_volunteer_service.py
 │ ├── conftest.py
-│ ├── test_analytics_service.py
-│ ├── test_donor_service.py
-│ ├── test_volunteer_service.py
+│ ├── mock_data.py
 ├── venv/
 ├── init.py
 ├── .coverage
+├── .env
 ├── .gitignore
 ├── app.py
 ├── LICENSE
@@ -111,6 +133,10 @@ CodeForGood
 
 ```
 ## API
+### To run the API & run tests
+- **Path:** cd .\CodeForGood
+- **Server:** uvicorn --app-dir CodeForGood app:app --reload
+- **Tests:** python -m pytest tests -v
 
 ### Donor Management
 
