@@ -24,6 +24,10 @@
  
  **CI (Continuous Integration) and CD (Continuous Deployment)** based on GitHub Actions.
 
+### To run the frontend
+- **Install [Node.js](https://nodejs.org/en)**
+- Run: cd .\CodeForGood\front; npm run dev
+- 
 
 ## Description
 
