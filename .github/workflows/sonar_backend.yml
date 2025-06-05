@@ -56,7 +56,8 @@ jobs:
             -Dsonar.organization=deviscoutb
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.coverage.exclusions=**/__init__.py,**/tests/**,**/migrations/**,**/config.py
+            -Dsonar.exclusions=front/**/*,**/__init__.py,**/tests/**,**/migrations/**,**/config.py
+            -Dsonar.coverage.exclusions=front/**/*,**/__init__.py,**/tests/**,**/migrations/**,**/config.py
             -Dsonar.c.file.suffixes=-
             -Dsonar.qualitygate.wait=true
             -Dsonar.qualitygate.timeout=300

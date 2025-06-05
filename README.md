@@ -24,6 +24,15 @@
  
  **CI (Continuous Integration) and CD (Continuous Deployment)** based on GitHub Actions.
 
+ **[Next.js](https://nextjs.org/**)** React framework for the frontend.
+
+### To run the Backend & run tests
+- **Server:** uvicorn app:app --reload
+- **Tests:** python -m pytest tests -v
+
+### To run the frontend
+- **Install [Node.js](https://nodejs.org/en)**
+- Run: cd .\front; npm run dev
 
 ## Description
 
@@ -33,6 +42,7 @@
 
 - **Donor Management**: Register, update, and delete donor information.
 - **Volunteer Management**: Manage volunteer information and assign activities.
+- **Analytics Management**: Reports with detailed analysis.
 - **Simple User Interface**: Easy access for administrators and users to manage activities and donations.
 - **Database Integration**: Uses MongoDB to store donor and volunteer data.
 
@@ -96,6 +106,15 @@ CodeForGood
 │ ├── sprint #4/
 │ ├── sprint #5/
 │ ├── sprint #6/
+├── front/
+│ ├── public/
+│ ├── src/app
+│ ├── .gitignore
+│ ├── README.md
+│ ├── package-lock.json
+│ ├── package.json
+│ ├── postcss.config.mjs  
+│ ├── tsconfig.json
 ├── htmlcov/
 ├── models/
 │ ├── __init__.py
@@ -121,23 +140,19 @@ CodeForGood
 │ ├── conftest.py
 │ ├── mock_data.py
 ├── venv/
-├── init.py
 ├── .coverage
-├── .env
 ├── .gitignore
-├── app.py
 ├── LICENSE
-├── pytest.ini
 ├── README.md
+├── init.py
+├── app.py
+├── .env
+├── package-lock.json
+├── package.json
+├── pytest.ini
 ├── requirements.txt
-
 ```
 ## API
-### To run the API & run tests
-- **Path:** cd .\CodeForGood
-- **Server:** uvicorn --app-dir CodeForGood app:app --reload
-- **Tests:** python -m pytest tests -v
-
 ### Donor Management
 
 - **GET /donors/**: Retrieve all registered donors.
