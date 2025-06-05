@@ -7,6 +7,9 @@ import Header from "../components/Header"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Edit3, Trash2, Heart, Mail, DollarSign, Search } from "lucide-react"
 
+
+// Datos del donador
+// Puedes ajustar el tipo según la estructura de tus datos
 type Donador = {
     id: number
     name: string
@@ -15,6 +18,8 @@ type Donador = {
 }
 
 export default function DonadoresPage() {
+    // Estados para manejar los donadores, carga, formulario y edición
+    // Puedes ajustar los tipos según tus necesidades
     const [donadores, setDonadores] = useState<Donador[]>([])
     const [loading, setLoading] = useState(true)
     const [showForm, setShowForm] = useState(false)
@@ -26,8 +31,11 @@ export default function DonadoresPage() {
         amount: "",
     })
 
+    // Función para obtener los donadores desde la API
+    // Puedes ajustar la URL según tu configuración de API
     const fetchDonadores = async () => {
         try {
+            // Aquí puedes cambiar la URL a la de tu API
             const response = await fetch("http://127.0.0.1:8000/donors")
             const data = await response.json()
             setDonadores(data)
@@ -38,9 +46,13 @@ export default function DonadoresPage() {
         }
     }
 
+    // Función para manejar el envío del formulario
+    // Puedes ajustar la lógica según tus necesidades
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
+            // ENDPOINTS
+            // Puedes ajustar la URL según tu configuración de API
             const url = editingDonor ? `http://127.0.0.1:8000/donors/${editingDonor.id}` : "http://127.0.0.1:8000/donors"
             const method = editingDonor ? "PUT" : "POST"
 
@@ -52,6 +64,8 @@ export default function DonadoresPage() {
                 body: JSON.stringify(formData),
             })
 
+            // Verifica si la respuesta es exitosa
+            // Puedes ajustar la lógica según tus necesidades
             if (response.ok) {
                 fetchDonadores()
                 setShowForm(false)
@@ -63,9 +77,15 @@ export default function DonadoresPage() {
         }
     }
 
+
+    // Función para manejar la eliminación de un donador
+    // Puedes ajustar la lógica según tus necesidades
     const handleDelete = async (id: number) => {
+        // Confirmación antes de eliminar
         if (confirm("¿Estás seguro de que quieres eliminar este donador?")) {
             try {
+
+                // Aquí puedes cambiar la URL a la de tu API
                 const response = await fetch(`http://127.0.0.1:8000/donors/${id}`, {
                     method: "DELETE",
                 })
@@ -78,6 +98,8 @@ export default function DonadoresPage() {
         }
     }
 
+    // Función para manejar la edición de un donador
+    // Puedes ajustar la lógica según tus necesidades
     const handleEdit = (donador: Donador) => {
         setEditingDonor(donador)
         setFormData({
@@ -88,6 +110,8 @@ export default function DonadoresPage() {
         setShowForm(true)
     }
 
+    // Filtrar donadores según el término de búsqueda
+    // Puedes ajustar la lógica según tus necesidades
     const filteredDonadores = donadores.filter(
         (donador) =>
             donador.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

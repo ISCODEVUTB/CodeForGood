@@ -24,8 +24,10 @@ export default function VoluntariosPage() {
         phone: "",
     })
 
+    // Funcion para obtener la lista de voluntarios desde la API
     const fetchVoluntarios = async () => {
         try {
+            // ENDPOINT: Cambia la URL según tu configuración de API
             const response = await fetch("http://127.0.0.1:8000/volunteers")
             const data = await response.json()
             setVoluntarios(data)
@@ -36,9 +38,11 @@ export default function VoluntariosPage() {
         }
     }
 
+    // Funcion para manjera los datos del formulario (editar o crear un voluntario)
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
+            // ENDPOINT: Cambia la URL según tu configuración de API
             const url = editingVolunteer
                 ? `http://127.0.0.1:8000/volunteers/${editingVolunteer.id}`
                 : "http://127.0.0.1:8000/volunteers"
@@ -53,6 +57,7 @@ export default function VoluntariosPage() {
                 body: JSON.stringify(formData),
             })
 
+            // si la respuesta es exitosa, actualiza la lista de voluntarios
             if (response.ok) {
                 fetchVoluntarios()
                 setShowForm(false)
@@ -64,9 +69,13 @@ export default function VoluntariosPage() {
         }
     }
 
+    // Funcion para eliminar un voluntario
+    // Muestra un mensaje de confirmación antes de eliminar
     const handleDelete = async (id: number) => {
         if (confirm("¿Estás seguro de que quieres eliminar este voluntario?")) {
             try {
+                // ENDPOINT: Cambia la URL según tu configuración de API
+                // Utiliza el método DELETE para eliminar el voluntario
                 const response = await fetch(`http://127.0.0.1:8000/volunteers/${id}`, {
                     method: "DELETE",
                 })
@@ -79,6 +88,7 @@ export default function VoluntariosPage() {
         }
     }
 
+    // Funcion para abrir el formulario de edición con los datos del voluntario seleccionado
     const handleEdit = (voluntario: Voluntario) => {
         setEditingVolunteer(voluntario)
         setFormData({
@@ -88,6 +98,8 @@ export default function VoluntariosPage() {
         setShowForm(true)
     }
 
+    // Filtrar voluntarios según el término de búsqueda
+    // Permite buscar por nombre o teléfono
     const filteredVoluntarios = voluntarios.filter(
         (voluntario) =>
             voluntario.name.toLowerCase().includes(searchTerm.toLowerCase()) || voluntario.phone.includes(searchTerm),
@@ -108,6 +120,8 @@ export default function VoluntariosPage() {
                 </div>
 
                 <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Header Section */}
+                    {/* Seccion con animacion utilizando motion */ }
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -151,6 +165,7 @@ export default function VoluntariosPage() {
                     </motion.div>
 
                     {/* Form Modal */}
+                    { /* AnimatePresence para manejar la animacion de entrada y salida del formulario */}
                     <AnimatePresence>
                         {showForm && (
                             <motion.div
@@ -193,6 +208,7 @@ export default function VoluntariosPage() {
                                             />
                                         </div>
                                         <div className="flex justify-end space-x-3 pt-4">
+                                            { /* Botones de acción del formulario */}
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 0.95 }}

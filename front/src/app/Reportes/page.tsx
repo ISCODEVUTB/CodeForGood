@@ -5,19 +5,23 @@ import Header from "../components/Header"
 import { motion } from "framer-motion"
 import { BarChart3, Users, Heart, TrendingUp, RefreshCw, AlertCircle } from "lucide-react"
 
+// Datos para repotes
 type Summary = {
     total_donors: number
     total_volunteers: number
 }
 
 export default function ReportesPage() {
+    // Estados para manejar los datos de analytics
     const [summary, setSummary] = useState<Summary | null>(null)
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
 
+    // Función para obtener los datos de analytics
     const fetchAnalytics = async () => {
         setRefreshing(true)
         try {
+            // ENDPOINT: Cambia la URL según tu configuración de backend
             const response = await fetch("http://127.0.0.1:8000/analytics/summary")
             const data = await response.json()
             setSummary(data)
@@ -33,6 +37,8 @@ export default function ReportesPage() {
         fetchAnalytics()
     }, [])
 
+    // Si aún está cargando, mostrar un spinner
+    // o una animación de carga
     if (loading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -71,6 +77,7 @@ export default function ReportesPage() {
                 </div>
 
                 <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -86,6 +93,7 @@ export default function ReportesPage() {
                                     Visualiza las métricas más importantes de tu plataforma en tiempo real
                                 </p>
                             </div>
+                            {/* Boton para actualizar los datos*/}
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
@@ -99,6 +107,7 @@ export default function ReportesPage() {
                         </div>
                     </motion.div>
 
+                    {/* Cartas con las estadisticas */}
                     {summary ? (
                         <div className="space-y-8">
                             {/* Main Stats Cards */}
@@ -167,6 +176,7 @@ export default function ReportesPage() {
                                                 Activo
                                             </span>
                                         </div>
+                                        {/* Porcentaje de voluntarios */}
                                         <h3 className="text-3xl font-bold text-gray-900 mb-2">
                                             {summary.total_volunteers && summary.total_donors
                                                 ? Math.round(
@@ -231,6 +241,7 @@ export default function ReportesPage() {
                                                     <div className="flex justify-between items-center">
                                                         <span className="text-green-700">Donadores</span>
                                                         <span className="font-semibold text-green-900">
+                                                            {/* Estadistica de donadores*/}
                                                             {summary.total_donors && summary.total_volunteers
                                                                 ? Math.round(
                                                                     (summary.total_donors / (summary.total_donors + summary.total_volunteers)) * 100,
