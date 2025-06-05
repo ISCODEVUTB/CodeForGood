@@ -38,6 +38,3 @@ def test_failed_connection(mock_mongoclient, mock_print):
 
     # Verificamos que el mensaje de error (solo el mensaje de la excepción) se haya impreso
     mock_print.assert_called_with("Connection failed")
-
-
-
