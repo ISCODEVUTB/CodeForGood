@@ -4,33 +4,35 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
+1. [Tech Stack & Tools](#tech-stack--tools)
 2. [Description](#description)
 3. [Main Features](#main-features)
 4. [User Types](#user-types)
-5. [Technologies Used](#technologies-used)
-6. [Installation and Setup](#installation-and-setup)
-7. [Security](#security)
-8. [Architecture](#architecture)
-9. [API](#api)
-10. [Team](#team)
-11. [License](#license)
+5. [Installation and Setup](#installation-and-setup)
+6. [Security](#security)
+7. [Architecture](#architecture)
+8. [API](#api)
+9. [Team](#team)
+10. [License](#license)
 
-## Overview
+## Tech Stack & Tools
+ - **[Python 3.x](https://www.python.org/)** as main language
 
- **[FastAPI](https://fastapi.tiangolo.com/)** for the Python backend API.  
+ - **[FastAPI](https://fastapi.tiangolo.com/)** for the Python backend API.  
  
- **Tests with [pytest](https://docs.pytest.org/en/stable/)** for testing the application.  
+ - **[Pytest](https://docs.pytest.org/en/stable/)** and **[httpx](https://www.python-httpx.org/)** for testing the application.  
  
- **CI (Continuous Integration) and CD (Continuous Deployment)** based on GitHub Actions.
+ - **CI (Continuous Integration) and CD (Continuous Deployment)** based on GitHub Actions.
 
- **[Next.js](https://nextjs.org/**)** React framework for the frontend.
+ - **[Next.js](https://nextjs.org/**)** React framework for the frontend.
+
+ - **[MongoDB Atlas](https://www.mongodb.com/en/atlas)** for the database
 
 ### To run the Backend & run tests
 - **Server:** uvicorn app:app --reload
 - **Tests:** python -m pytest tests -v
 
-### To run the frontend
+### To run the Frontend
 - **Install [Node.js](https://nodejs.org/en)**
 - Run: cd .\front; npm run dev
 
@@ -51,13 +53,6 @@
 - **Donor**: Can make donations.
 - **Volunteer**: Can sign up for activities.
 - **Administrator**: Oversees and manages all donor, volunteer, and activity records.
-
-## Technologies Used
-
-- **Languages and Frameworks**: Python 3.x, FastAPI
-- **Database**: MongoDB
-- **Testing**: pytest, httpx for unit testing
-- **CI/CD**: GitHub Actions for continuous integration and automated deployment
 
 ## Installation and Setup
 
